@@ -1,4 +1,4 @@
-import 'package:brick_breaker/home_page.dart';
+import 'package:brick_breaker/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
