@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:brick_breaker/ball.dart';
 import 'package:brick_breaker/cover_screen.dart';
+import 'package:brick_breaker/game_over_screen.dart';
 import 'package:brick_breaker/player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,13 +26,25 @@ class _HomePageState extends State<HomePage> {
   double playerWidth = 0.3;
   //game setting
   bool hasGameStarted = false;
+  bool isGameOver = false;
   //Start Game
   void startGame() {
     hasGameStarted = true;
     Timer.periodic(const Duration(milliseconds: 10), (timer) {
       updateDriection();
       moveBall();
+      if (isPlayerDead()) {
+        timer.cancel();
+        isGameOver = true;
+      }
     });
+  }
+
+  bool isPlayerDead() {
+    if (ballY >= 1) {
+      return true;
+    }
+    return false;
   }
 
   //move ball
@@ -94,6 +107,8 @@ class _HomePageState extends State<HomePage> {
               children: [
                 //Tap to play
                 CoverScreen(hasGameStarted: hasGameStarted),
+                //game over 
+                GameOverScreen(isGameOver: isGameOver),
                 //Ball
                 Ball(
                   ballX: ballX,
